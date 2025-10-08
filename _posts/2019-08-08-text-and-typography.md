@@ -3,6 +3,7 @@ title: 텍스트와 타이포그래피
 description: 텍스트, 타이포그래피, 수학 공식, 다이어그램, 플로우차트, 사진, 동영상 등의 예시입니다.
 author: cotes
 date: 2019-08-08 11:33:00 +0800
+published: false
 categories: [블로깅, 데모]
 tags: [타이포그래피]
 pin: true

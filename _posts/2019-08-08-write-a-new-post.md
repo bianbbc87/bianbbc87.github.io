@@ -2,6 +2,7 @@
 title: 새 게시글 작성하기
 author: cotes
 date: 2019-08-08 14:10:00 +0800
+published: false
 categories: [블로깅, 튜토리얼]
 tags: [글쓰기]
 render_with_liquid: false

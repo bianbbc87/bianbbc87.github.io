@@ -5,6 +5,7 @@ description: >-
   첫 번째 Chirpy 기반 웹사이트를 설치, 구성 및 사용하는 방법과 웹 서버에 배포하는 방법을 배우게 됩니다.
 author: cotes
 date: 2019-08-09 20:55:00 +0800
+published: false
 categories: [블로깅, 튜토리얼]
 tags: [시작하기]
 pin: true
