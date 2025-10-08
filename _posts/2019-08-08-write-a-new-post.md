@@ -29,53 +29,53 @@ tags: [태그]     # 태그명은 항상 소문자로 작성
 > 게시글의 _layout_은 기본적으로 `post`로 설정되어 있으므로, Front Matter 블록에 _layout_ 변수를 추가할 필요가 없습니다.
 {: .prompt-tip }
 
-### Timezone of Date
+### 날짜의 시간대
 
-To accurately record the release date of a post, you should not only set up the `timezone` of `_config.yml`{: .filepath} but also provide the post's timezone in variable `date` of its Front Matter block. Format: `+/-TTTT`, e.g. `+0800`.
+게시글의 발행 날짜를 정확히 기록하려면 `_config.yml`{: .filepath}의 `timezone`을 설정할 뿐만 아니라 Front Matter 블록의 `date` 변수에도 게시글의 시간대를 제공해야 합니다. 형식: `+/-TTTT`, 예: `+0800`.
 
-### Categories and Tags
+### 카테고리와 태그
 
-The `categories` of each post are designed to contain up to two elements, and the number of elements in `tags` can be zero to infinity. For instance:
+각 게시글의 `categories`는 최대 두 개의 요소를 포함하도록 설계되었으며, `tags`의 요소 수는 0개부터 무한대까지 가능합니다. 예를 들어:
 
 ```yaml
 ---
-categories: [Animal, Insect]
-tags: [bee]
+categories: [동물, 곤충]
+tags: [벌]
 ---
 ```
 
-### Author Information
+### 작성자 정보
 
-The author information of the post usually does not need to be filled in the _Front Matter_ , they will be obtained from variables `social.name` and the first entry of `social.links` of the configuration file by default. But you can also override it as follows:
+게시글의 작성자 정보는 일반적으로 _Front Matter_에 작성할 필요가 없습니다. 기본적으로 설정 파일의 `social.name` 변수와 `social.links`의 첫 번째 항목에서 가져옵니다. 하지만 다음과 같이 재정의할 수도 있습니다:
 
-Adding author information in `_data/authors.yml` (If your website doesn't have this file, don't hesitate to create one).
+`_data/authors.yml`에 작성자 정보를 추가하세요 (웹사이트에 이 파일이 없다면 주저하지 말고 만드세요).
 
 ```yaml
-<author_id>:
-  name: <full name>
-  twitter: <twitter_of_author>
-  url: <homepage_of_author>
+<작성자_id>:
+  name: <전체 이름>
+  twitter: <작성자의_트위터>
+  url: <작성자의_홈페이지>
 ```
 {: file="_data/authors.yml" }
 
-And then use `author` to specify a single entry or `authors` to specify multiple entries:
+그런 다음 `author`를 사용하여 단일 항목을 지정하거나 `authors`를 사용하여 여러 항목을 지정하세요:
 
 ```yaml
 ---
-author: <author_id>                     # for single entry
-# or
-authors: [<author1_id>, <author2_id>]   # for multiple entries
+author: <작성자_id>                     # 단일 항목용
+# 또는
+authors: [<작성자1_id>, <작성자2_id>]   # 여러 항목용
 ---
 ```
 
-Having said that, the key `author` can also identify multiple entries.
+그런데 `author` 키도 여러 항목을 식별할 수 있습니다.
 
-> The benefit of reading the author information from the file `_data/authors.yml`{: .filepath } is that the page will have the meta tag `twitter:creator`, which enriches the [Twitter Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started#card-and-content-attribution) and is good for SEO.
+> `_data/authors.yml`{: .filepath } 파일에서 작성자 정보를 읽는 것의 장점은 페이지에 `twitter:creator` 메타 태그가 있어 [Twitter Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started#card-and-content-attribution)를 풍부하게 하고 SEO에 좋다는 것입니다.
 {: .prompt-info }
 
-### Post Description
+### 게시글 설명
 
-By default, the first words of the post are used to display on the home page for a list of posts, in the _Further Reading_ section, and in the XML of the RSS feed. If you don't want to display the auto-generated description for the post, you can customize it using the `description` field in the _Front Matter_ as follows:
+기본적으로 게시글의 첫 번째 단어들이 홈페이지의 게시글 목록, _추가 읽기_ 섹션, RSS 피드의 XML에 표시됩니다. 게시글에 대해 자동 생성된 설명을 표시하고 싶지 않다면, _Front Matter_의 `description` 필드를 사용하여 다음과 같이 사용자 정의할 수 있습니다:
 
 ```yaml
 ---
@@ -85,9 +85,9 @@ description: Short summary of the post.
 
 Additionally, the `description` text will also be displayed under the post title on the post's page.
 
-## Table of Contents
+## 목차
 
-By default, the **T**able **o**f **C**ontents (TOC) is displayed on the right panel of the post. If you want to turn it off globally, go to `_config.yml`{: .filepath} and set the value of variable `toc` to `false`. If you want to turn off TOC for a specific post, add the following to the post's [Front Matter](https://jekyllrb.com/docs/front-matter/):
+기본적으로 **목**차(TOC)는 게시글의 오른쪽 패널에 표시됩니다. 전역적으로 끄고 싶다면 `_config.yml`{: .filepath}로 이동하여 `toc` 변수의 값을 `false`로 설정하세요. 특정 게시글에 대해 목차를 끄고 싶다면 게시글의 [Front Matter](https://jekyllrb.com/docs/front-matter/)에 다음을 추가하세요:
 
 ```yaml
 ---
@@ -95,11 +95,11 @@ toc: false
 ---
 ```
 
-## Comments
+## 댓글
 
-The global setting for comments is defined by the `comments.provider` option in the `_config.yml`{: .filepath} file. Once a comment system is selected for this variable, comments will be enabled for all posts.
+댓글에 대한 전역 설정은 `_config.yml`{: .filepath} 파일의 `comments.provider` 옵션으로 정의됩니다. 이 변수에 댓글 시스템이 선택되면 모든 게시글에 댓글이 활성화됩니다.
 
-If you want to close the comment for a specific post, add the following to the **Front Matter** of the post:
+특정 게시글의 댓글을 닫고 싶다면 게시글의 **Front Matter**에 다음을 추가하세요:
 
 ```yaml
 ---
@@ -107,22 +107,22 @@ comments: false
 ---
 ```
 
-## Media
+## 미디어
 
-We refer to images, audio and video as media resources in _Chirpy_.
+_Chirpy_에서는 이미지, 오디오, 비디오를 미디어 리소스라고 합니다.
 
-### URL Prefix
+### URL 접두사
 
-From time to time we have to define duplicate URL prefixes for multiple resources in a post, which is a boring task that you can avoid by setting two parameters.
+때때로 게시글의 여러 리소스에 대해 중복된 URL 접두사를 정의해야 하는데, 이는 두 개의 매개변수를 설정하여 피할 수 있는 지루한 작업입니다.
 
-- If you are using a CDN to host media files, you can specify the `cdn` in `_config.yml`{: .filepath }. The URLs of media resources for site avatar and posts are then prefixed with the CDN domain name.
+- 미디어 파일을 호스팅하기 위해 CDN을 사용하는 경우 `_config.yml`{: .filepath }에서 `cdn`을 지정할 수 있습니다. 그러면 사이트 아바타와 게시글의 미디어 리소스 URL에 CDN 도메인 이름이 접두사로 붙습니다.
 
   ```yaml
   cdn: https://cdn.com
   ```
   {: file='_config.yml' .nolineno }
 
-- To specify the resource path prefix for the current post/page range, set `media_subpath` in the _front matter_ of the post:
+- 현재 게시글/페이지 범위의 리소스 경로 접두사를 지정하려면 게시글의 _front matter_에서 `media_subpath`를 설정하세요:
 
   ```yaml
   ---
@@ -131,13 +131,13 @@ From time to time we have to define duplicate URL prefixes for multiple resource
   ```
   {: .nolineno }
 
-The option `site.cdn` and `page.media_subpath` can be used individually or in combination to flexibly compose the final resource URL: `[site.cdn/][page.media_subpath/]file.ext`
+`site.cdn`과 `page.media_subpath` 옵션은 개별적으로 또는 조합하여 사용하여 최종 리소스 URL을 유연하게 구성할 수 있습니다: `[site.cdn/][page.media_subpath/]file.ext`
 
-### Images
+### 이미지
 
-#### Caption
+#### 캡션
 
-Add italics to the next line of an image, then it will become the caption and appear at the bottom of the image:
+이미지의 다음 줄에 이탤릭체를 추가하면 캡션이 되어 이미지 하단에 나타납니다:
 
 ```markdown
 ![img-description](/path/to/image)
@@ -145,7 +145,7 @@ _Image Caption_
 ```
 {: .nolineno}
 
-#### Size
+#### 크기
 
 To prevent the page content layout from shifting when the image is loaded, we should set the width and height for each image.
 
@@ -164,7 +164,7 @@ Starting from _Chirpy v5.0.0_, `height` and `width` support abbreviations (`heig
 ```
 {: .nolineno}
 
-#### Position
+#### 위치
 
 By default, the image is centered, but you can specify the position by using one of the classes `normal`, `left`, and `right`.
 
@@ -203,7 +203,7 @@ You can make images follow theme preferences in dark/light mode. This requires y
 <!-- ![Dark mode only](/path/to/dark-mode.png){: .dark } -->
 ```
 
-#### Shadow
+#### 그림자
 
 The screenshots of the program window can be considered to show the shadow effect:
 
@@ -212,7 +212,7 @@ The screenshots of the program window can be considered to show the shadow effec
 ```
 {: .nolineno}
 
-#### Preview Image
+#### 미리보기 이미지
 
 If you want to add an image at the top of the post, please provide an image with a resolution of `1200 x 630`. Please note that if the image aspect ratio does not meet `1.91 : 1`, the image will be scaled and cropped.
 
@@ -340,7 +340,7 @@ Consider an example using all of the above:
 %}
 ```
 
-## Pinned Posts
+## 고정된 게시글
 
 You can pin one or more posts to the top of the home page, and the fixed posts are sorted in reverse order according to their release date. Enable by:
 
@@ -350,7 +350,7 @@ pin: true
 ---
 ```
 
-## Prompts
+## 프롬프트
 
 There are several types of prompts: `tip`, `info`, `warning`, and `danger`. They can be generated by adding the class `prompt-{type}` to the blockquote. For example, define a prompt of type `info` as follows:
 
@@ -360,7 +360,7 @@ There are several types of prompts: `tip`, `info`, `warning`, and `danger`. They
 ```
 {: .nolineno }
 
-## Syntax
+## 문법
 
 ### Inline Code
 
@@ -437,7 +437,7 @@ If you want to display the **Liquid** snippet, surround the liquid code with `{%
 
 Or adding `render_with_liquid: false` (Requires Jekyll 4.0 or higher) to the post's YAML block.
 
-## Mathematics
+## 수학
 
 We use [**MathJax**][mathjax] to generate mathematics. For website performance reasons, the mathematical feature won't be loaded by default. But it can be enabled by:
 
@@ -504,6 +504,6 @@ mermaid: true
 
 Then you can use it like other markdown languages: surround the graph code with ```` ```mermaid ```` and ```` ``` ````.
 
-## Learn More
+## 더 알아보기
 
 For more knowledge about Jekyll posts, visit the [Jekyll Docs: Posts](https://jekyllrb.com/docs/posts/).

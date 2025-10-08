@@ -18,16 +18,16 @@ pin: true
 
 이 방법은 업그레이드를 단순화하고, 불필요한 파일을 분리하며, 최소한의 구성으로 글쓰기에 집중하고 싶은 사용자에게 완벽합니다.
 
-1. Sign in to GitHub and navigate to the [**starter**][starter].
-2. Click the <kbd>Use this template</kbd> button and then select <kbd>Create a new repository</kbd>.
-3. Name the new repository `<username>.github.io`, replacing `username` with your lowercase GitHub username.
+1. GitHub에 로그인하고 [**스타터**][starter]로 이동하세요.
+2. <kbd>Use this template</kbd> 버튼을 클릭한 다음 <kbd>Create a new repository</kbd>를 선택하세요.
+3. 새 저장소의 이름을 `<username>.github.io`로 지정하되, `username`을 소문자 GitHub 사용자명으로 바꾸세요.
 
-### Option 2. Forking the Theme
+### 옵션 2. 테마 포크하기
 
-This approach is convenient for modifying features or UI design, but presents challenges during upgrades. So don't try this unless you are familiar with Jekyll and plan to heavily modify this theme.
+이 방법은 기능이나 UI 디자인을 수정하는 데 편리하지만 업그레이드 시 어려움을 겪습니다. 따라서 Jekyll에 익숙하고 이 테마를 크게 수정할 계획이 아니라면 시도하지 마세요.
 
-1. Sign in to GitHub.
-2. [Fork the theme repository](https://github.com/cotes2020/jekyll-theme-chirpy/fork).
+1. GitHub에 로그인하세요.
+2. [테마 저장소를 포크하세요](https://github.com/cotes2020/jekyll-theme-chirpy/fork).
 3. Name the new repository `<username>.github.io`, replacing `username` with your lowercase GitHub username.
 
 ## Setting up the Environment

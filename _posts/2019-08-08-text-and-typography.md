@@ -14,20 +14,20 @@ image:
   alt: 여러 기기에서의 Chirpy 테마 반응형 렌더링.
 ---
 
-## Headings
+## 제목
 
 <!-- markdownlint-capture -->
 <!-- markdownlint-disable -->
-# H1 — heading
+# H1 — 제목
 {: .mt-4 .mb-0 }
 
-## H2 — heading
+## H2 — 제목
 {: data-toc-skip='' .mt-4 .mb-0 }
 
-### H3 — heading
+### H3 — 제목
 {: data-toc-skip='' .mt-4 .mb-0 }
 
-#### H4 — heading
+#### H4 — 제목
 {: data-toc-skip='' .mt-4 }
 <!-- markdownlint-restore -->
 
