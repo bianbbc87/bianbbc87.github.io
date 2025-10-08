@@ -200,7 +200,7 @@ You can make images follow theme preferences in dark/light mode. This requires y
 
 ```markdown
 ![Light mode only](/path/to/light-mode.png){: .light }
-![Dark mode only](/path/to/dark-mode.png){: .dark }
+<!-- ![Dark mode only](/path/to/dark-mode.png){: .dark } -->
 ```
 
 #### Shadow
