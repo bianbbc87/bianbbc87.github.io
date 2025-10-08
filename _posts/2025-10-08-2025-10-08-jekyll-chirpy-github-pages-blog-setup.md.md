@@ -227,7 +227,7 @@ workflow에 대해 `master`로 정의된 브랜치명을 `main`으로 변경합�
 
 ![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-20.png){: .w-75 .shadow .rounded-10 }
 
-최종적으로 jekyll workflow 1개만 실패합니다.
+아직까지는 jekyll workflow 1개가 실패합니다.
 
 ### 촤종 workflow 완성하기
 ---
