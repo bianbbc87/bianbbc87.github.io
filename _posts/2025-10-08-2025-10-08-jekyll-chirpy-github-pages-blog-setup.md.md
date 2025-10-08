@@ -4,6 +4,7 @@ date: 2025-10-08 16:52:00 +0900
 published: true
 categories: [Github-Pages, Jekyll]
 tags: [guide]
+media_subpath: '/assets/img/posts/20251008-guide'
 ---
 
 ## 글의 목적
@@ -81,13 +82,13 @@ Chirpy 테마 설치 방법에는 Chirpy Stater과 Github Fork 방식이 존재�
 
 [jekyll-theme-chirpy](https://github.com/cotes2020/jekyll-theme-chirpy) repository를 Fork 합니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-3.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-3.png){: .w-75 .shadow .rounded-10 }
 
 Owner에 본인 계정을 설정 해주시면 됩니다. 
 저는 이미 있어서 already exists라고 뜹니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-4.png){: .w-75 .shadow .rounded-10 }
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-5.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-4.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-5.png){: .w-75 .shadow .rounded-10 }
 _여러분들은 Owner로 본인을 설정 해주시면 됩니다._
 
 <br />
@@ -96,17 +97,17 @@ _여러분들은 Owner로 본인을 설정 해주시면 됩니다._
 
 원본 레포의 기본 브랜치명이 `master`로 되어있는데요, Fork한 레포지토리에서 branch> `View all branches`를 클릭합니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-7.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-7.png){: .w-75 .shadow .rounded-10 }
 
 Rename branch 로 브랜치명을 `main`으로 변경 해줍니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-6.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-6.png){: .w-75 .shadow .rounded-10 }
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-8.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-8.png){: .w-75 .shadow .rounded-10 }
 
 새로고침으로 잘 변경 되었는지 확인합니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-9.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-9.png){: .w-75 .shadow .rounded-10 }
 
 <br />
 
@@ -132,7 +133,7 @@ bundle 명령어로 jekyll과 관련된 gem 라이브러리를 설치합니다.
 bundle
 ```
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-11.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-11.png){: .w-75 .shadow .rounded-10 }
 
 <br />
 
@@ -144,7 +145,7 @@ npm 명령어로 필요한 node.js 패키지를 설치하고 build합니다.
 npm install && npm run build
 ```
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-12.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-12.png){: .w-75 .shadow .rounded-10 }
 
 여기서 다음과 같은 폴더가 생성 됩니다.
 `assets/js/dist/*`
@@ -157,11 +158,11 @@ npm install && npm run build
 jekyll serve
 ```
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-13.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-13.png){: .w-75 .shadow .rounded-10 }
 
 아래 콘솔과 같이 오류 없이 localhost:4000에서 Chirpy 블로그가 로드되면 성공입니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-14.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-14.png){: .w-75 .shadow .rounded-10 }
 
 ### Github Pages actions로 배포하기
 ---
@@ -170,21 +171,21 @@ jekyll serve
 
 로컬 테스트가 완료 되었다면, 내 Fork 레포지토리에서 `Settings`>`Code and automation/Pages`>`Build and deployment`를 확인합니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-15.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-15.png){: .w-75 .shadow .rounded-10 }
 
 github actions를 기준으로 변경해줍니다.
 그럼 Jekyll에 대한 `configure` 버튼이 보일텐데, 클릭 후 생성된 jekyll.yml을 그대로 저장 해주면 됩니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-16.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-16.png){: .w-75 .shadow .rounded-10 }
 
 저는 미리 생성 되어 있어서 사진을 못 찍었지만 여기서 코드 수정 없이 Commit Changes로 파일을 추가해주시면 됩니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-17.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-17.png){: .w-75 .shadow .rounded-10 }
 
 그럼 바로 actions가 동작하는데, 실패합니다.
 파일 로드를 못 했다는 문제이니 지금은 무시하고 다음 단계로 넘어가면 됩니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-22.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-22.png){: .w-75 .shadow .rounded-10 }
 
 <br />
 
@@ -200,7 +201,7 @@ git pull origin main
 
 기존 배포 방식(Deploy from a branch)에서 사용되던 workflow 파일을 삭제합니다. 이 글을 작성하던 시점 기준으로 `.github/workflows/starter/pages-deploy.yml` 위치에 있습니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-18.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-18.png){: .w-75 .shadow .rounded-10 }
 
 <br />
 
@@ -220,12 +221,12 @@ workflow에 대해 `master`로 정의된 브랜치명을 `main`으로 변경합�
 > build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
 {: .prompt-warning }
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-19.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-19.png){: .w-75 .shadow .rounded-10 }
 
 이렇게 수정한 후 push 합니다.
 그럼 codeql을 제외한 `ci`, `commitlint`, `jekyll` 총 3개의 workflow가 동작합니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-20.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-20.png){: .w-75 .shadow .rounded-10 }
 
 아직까지는 jekyll workflow 1개가 실패합니다.
 
@@ -237,7 +238,7 @@ workflow에 대해 `master`로 정의된 브랜치명을 `main`으로 변경합�
 빌드 오류를 확인하면 다음과 같습니다.
 `Error: Can't find stylesheet to import.`
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-23.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-23.png){: .w-75 .shadow .rounded-10 }
 
 이 오류는 Jekyll이 @use 'vendors/bootstrap'를 찾으려 하는데 `_sass/vendors/_bootstrap.scss` 파일이 없어서 발생하는 문제입니다.
 
@@ -256,11 +257,11 @@ git commit -m"fix: dist/, vendors file ignore에서 제거"
 git push
 ```
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-24.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-24.png){: .w-75 .shadow .rounded-10 }
 
 다시 workflow를 확인하면 성공한 것을 볼 수 있습니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-25.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-25.png){: .w-75 .shadow .rounded-10 }
 
 <br />
 
@@ -268,7 +269,7 @@ git push
 `http://{username}.github.io` 경로로 들어가 테스트 페이지 및 블로그 기능이 정상 동작하는지 확인합니다.
 로컬 환경과 동일하게 블로그 UI가 잘 뜨면 성공한 것입니다.
 
-![Chirpy Repository Fork](/assets/img/posts/20251008-guide/image-26.png){: .w-75 .shadow .rounded-10 }
+![Chirpy Repository Fork](/image-26.png){: .w-75 .shadow .rounded-10 }
 
 
 ## 회고
