@@ -1,32 +1,32 @@
 ---
-title: Writing a New Post
+title: 새 게시글 작성하기
 author: cotes
 date: 2019-08-08 14:10:00 +0800
-categories: [Blogging, Tutorial]
-tags: [writing]
+categories: [블로깅, 튜토리얼]
+tags: [글쓰기]
 render_with_liquid: false
 ---
 
-This tutorial will guide you how to write a post in the _Chirpy_ template, and it's worth reading even if you've used Jekyll before, as many features require specific variables to be set.
+이 튜토리얼은 _Chirpy_ 템플릿에서 게시글을 작성하는 방법을 안내합니다. Jekyll을 사용해본 적이 있더라도 읽어볼 가치가 있습니다. 많은 기능들이 특정 변수 설정을 필요로 하기 때문입니다.
 
-## Naming and Path
+## 파일명과 경로
 
-Create a new file named `YYYY-MM-DD-TITLE.EXTENSION`{: .filepath} and put it in the `_posts`{: .filepath} of the root directory. Please note that the `EXTENSION`{: .filepath} must be one of `md`{: .filepath} and `markdown`{: .filepath}. If you want to save time of creating files, please consider using the plugin [`Jekyll-Compose`](https://github.com/jekyll/jekyll-compose) to accomplish this.
+`YYYY-MM-DD-제목.확장자`{: .filepath} 형식으로 새 파일을 만들어 루트 디렉토리의 `_posts`{: .filepath} 폴더에 넣으세요. `확장자`{: .filepath}는 반드시 `md`{: .filepath} 또는 `markdown`{: .filepath} 중 하나여야 합니다. 파일 생성 시간을 절약하고 싶다면 [`Jekyll-Compose`](https://github.com/jekyll/jekyll-compose) 플러그인 사용을 고려해보세요.
 
 ## Front Matter
 
-Basically, you need to fill the [Front Matter](https://jekyllrb.com/docs/front-matter/) as below at the top of the post:
+기본적으로 게시글 상단에 다음과 같은 [Front Matter](https://jekyllrb.com/docs/front-matter/)를 작성해야 합니다:
 
 ```yaml
 ---
-title: TITLE
+title: 제목
 date: YYYY-MM-DD HH:MM:SS +/-TTTT
-categories: [TOP_CATEGORY, SUB_CATEGORY]
-tags: [TAG]     # TAG names should always be lowercase
+categories: [상위카테고리, 하위카테고리]
+tags: [태그]     # 태그명은 항상 소문자로 작성
 ---
 ```
 
-> The posts' _layout_ has been set to `post` by default, so there is no need to add the variable _layout_ in the Front Matter block.
+> 게시글의 _layout_은 기본적으로 `post`로 설정되어 있으므로, Front Matter 블록에 _layout_ 변수를 추가할 필요가 없습니다.
 {: .prompt-tip }
 
 ### Timezone of Date

@@ -1,23 +1,23 @@
 ---
-title: Getting Started
+title: 시작하기
 description: >-
-  Get started with Chirpy basics in this comprehensive overview.
-  You will learn how to install, configure, and use your first Chirpy-based website, as well as deploy it to a web server.
+  이 포괄적인 개요에서 Chirpy 기본 사항을 시작해보세요.
+  첫 번째 Chirpy 기반 웹사이트를 설치, 구성 및 사용하는 방법과 웹 서버에 배포하는 방법을 배우게 됩니다.
 author: cotes
 date: 2019-08-09 20:55:00 +0800
-categories: [Blogging, Tutorial]
-tags: [getting started]
+categories: [블로깅, 튜토리얼]
+tags: [시작하기]
 pin: true
 media_subpath: '/posts/20180809'
 ---
 
-## Creating a Site Repository
+## 사이트 저장소 생성
 
-When creating your site repository, you have two options depending on your needs:
+사이트 저장소를 생성할 때 필요에 따라 두 가지 옵션이 있습니다:
 
-### Option 1. Using the Starter (Recommended)
+### 옵션 1. 스타터 사용 (권장)
 
-This approach simplifies upgrades, isolates unnecessary files, and is perfect for users who want to focus on writing with minimal configuration.
+이 방법은 업그레이드를 단순화하고, 불필요한 파일을 분리하며, 최소한의 구성으로 글쓰기에 집중하고 싶은 사용자에게 완벽합니다.
 
 1. Sign in to GitHub and navigate to the [**starter**][starter].
 2. Click the <kbd>Use this template</kbd> button and then select <kbd>Create a new repository</kbd>.
