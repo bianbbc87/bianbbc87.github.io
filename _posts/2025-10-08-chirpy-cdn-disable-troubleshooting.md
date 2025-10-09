@@ -1,5 +1,5 @@
 ---
-title: Chirpy _config.yml CDN 비활성화 시 이미지 오류 해결하기
+title: Jekyll Chirpy에서 which does not exist 이미지 경로 오류 원인 분석 및 해결하기
 date: 2025-10-08 18:37:00 +0900
 published: true
 categories: [Github-Pages, Jekyll]
@@ -8,9 +8,10 @@ media_subpath: '/assets/img/posts/20251008-cdn'
 ---
 
 ## 문제 상황
+
 지난 번 만든 Chirpy의 config 설정을 하면서 사용하는 것, 안 하는 것을 분류하였는데, 업데이트 하고 보니 갑자기 ci workflow에서 다음과 같은 에러가 발생했습니다.
 
-   ![Build source](/image.png){: .w-75 .shadow .rounded-10 }
+![Build source](/image.png){: .w-75 .shadow .rounded-10 }
 
 ```bash
 # ...
@@ -35,7 +36,7 @@ media_subpath: '/posts/20180809'
 # ...
 
 
-![Build source](pages-source-light.png){: .light .border .normal w='375' h='140' }
+![Build source](image.png){: .light .border .normal w='375' h='140' }
 ```
 
 이 때, media_subpath를 기준으로 하단 md에 정의된 이미지를 찾는다고 합니다. 즉, `/posts/20180809/pages-source-light.png` 경로에 해당하는 이미지가 있어야 했습니다.
@@ -75,7 +76,7 @@ Chirpy 테마에서 **cdn 필드는 이미지, 폰트, 스크립트 등 정적 �
 
 입니다.
 
-`media_subpath`도 지금은 잘 동작할 것이라 예상합니다.
+`media_subpath`도 지금은 잘 동작합니다.
 
 
 ## 회고 

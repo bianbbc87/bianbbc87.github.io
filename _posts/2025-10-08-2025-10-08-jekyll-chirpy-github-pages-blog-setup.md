@@ -1,5 +1,5 @@
 ---
-title: Chirpy Jekyll 테마로 github-pages 개발 블로그 제작하기 (25.10.08v)
+title: Jekyll로 Github 블로그 만들기 (with Chirpy) [25.10.08v]
 date: 2025-10-08 16:52:00 +0900
 published: true
 categories: [Github-Pages, Jekyll]
@@ -85,7 +85,7 @@ Chirpy 테마 설치 방법에는 Chirpy Stater과 Github Fork 방식이 존재�
 ![Chirpy Repository Fork](/image-3.png){: .w-75 .shadow .rounded-10 }
 
 Owner에 본인 계정을 설정 해주시면 됩니다. 
-저는 이미 있어서 already exists라고 뜹니다.
+저는 이미 있어서 `already exists`라고 뜹니다.
 
 ![Chirpy Repository Fork](/image-4.png){: .w-75 .shadow .rounded-10 }
 ![Chirpy Repository Fork](/image-5.png){: .w-75 .shadow .rounded-10 }
