@@ -9,6 +9,7 @@ media_subpath: '/assets/img/posts/20251008-config'
 
 ## webmaster_verifications란
 
+블로그 사이트와 포스트를 인증된 검색 엔진에 노출하는 시스템입니다.
 검색 엔진 종류는 다음과 같습니다.
 
 - Google: Google 검색 노출
@@ -28,44 +29,44 @@ webmaster_verifications:
   facebook: # fill in your Facebook verification code
 ```
 
-#### 1. Google Site Verification 설정하기
+### 1. Google Site Verification 설정하기
 
-###### 1. Google Search Console로 접속합니다. 
+#### 1. Google Search Console로 접속합니다. 
 - [Google Search Console](https://search.google.com/search-console/welcome)
 
-###### 2. `URL 접두어` 방식에 블로그 사이트 도메인을 등록합니다.
+#### 2. `URL 접두어` 방식에 블로그 사이트 도메인을 등록합니다.
 
 ![alt text](/image-8.png){: .w-75 .shadow .rounded-10 }
 
-###### 3. 권장 확인 방법인 `HTML 파일` 말고, **`HTML 태그`**에서 메타 태그를 복사합니다.
+#### 3. 권장 확인 방법인 `HTML 파일` 말고, **`HTML 태그`**에서 메타 태그를 복사합니다.
 
 `<meta name="google-site-verification" content="R02x0MfSsOobEyxqa11BwJ7oTJvzfBL5jLyTiHwYUZA" />` 에서 **content 값**
 
 ![alt text](/image-9.png){: .w-75 .shadow .rounded-10 }
 
-###### 4. `${google_verifications_code}` 자리에 붙여넣습니다.
+#### 4. `${google_verifications_code}` 자리에 붙여넣습니다.
 
-###### 5. 이 설정을 포함한 상태에서 호스팅이 되도록 재배포 합니다. (git push)
+#### 5. 이 설정을 포함한 상태에서 호스팅이 되도록 재배포 합니다. (git push)
 
-###### 6. 다시 사이트로 돌아와 `확인` 을 클릭합니다.
+#### 6. 다시 사이트로 돌아와 `확인` 을 클릭합니다.
 
-###### 7. 성공 화면을 확인합니다.
+#### 7. 성공 화면을 확인합니다.
 
 ![alt text](/image-6.png){: .w-75 .shadow .rounded-10 }
 
-#### 2. Bing Site Verification 설정하기
+### 2. Bing Site Verification 설정하기
 
-###### 1. Help Guide에 따라 Bing WebMaster에서 인증을 진행하면 됩니다.
+#### 1. Help Guide에 따라 Bing WebMaster에서 인증을 진행하면 됩니다.
 
 [Help Guide](https://www.bing.com/webmasters/help/add-and-verify-site-12184f8b?utm_source=chatgpt.com)
 
 [Bing WebMaster](https://www.bing.com/webmasters/)
 
-###### 2. 성공 화면을 확인합니다.
+#### 2. 성공 화면을 확인합니다.
 
 ![alt text](/image-7.png){: .w-75 .shadow .rounded-10 }
 
-#### 3. 나머지 설정하기
+### 3. 나머지 설정하기
 
 - Yandex: <https://webmaster.yandex.com/>
 - Baidu: <https://ziyuan.baidu.com/>
