@@ -38,7 +38,7 @@ media_subpath: '/assets/img/posts/20251008-config'
 방금 설정한 Account Name이 Site Code입니다.
 여기서 Site Code는 `bianbbc87`입니다.
 
-#### 4. 우측 상단 Settings 클릭 후 `Allow adding visitor counts on your website...` 체크박스를 활성화 합니다.
+#### 4. 우측 상단 Settings 클릭 후 `Allow adding visitor counts on your website...` 체크박스를 활성화 하고 **저장**합니다.
 
 ![alt text](/views-4.png){: .w-75 .shadow .rounded-10 }
 
