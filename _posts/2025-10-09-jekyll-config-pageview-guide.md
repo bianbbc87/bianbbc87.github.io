@@ -56,3 +56,9 @@ analytics:
     id: bianbbc87
   ...
 ```
+
+#### 6. git push로 재배포 합니다.
+
+#### 7. 상세 포스트 페이지의 제목 하단에 views가 추가된 것을 확인할 수 있습니다.
+
+![alt text](/views-5.png){: .w-75 .shadow .rounded-10 }
