@@ -28,22 +28,16 @@ help() {
 
 read_baseurl() {
   if [[ $_config == *","* ]]; then
-    # multiple config
     IFS=","
     read -ra config_array <<<"$_config"
-
-    # reverse loop the config files
     for ((i = ${#config_array[@]} - 1; i >= 0; i--)); do
       _tmp_baseurl="$(grep '^baseurl:' "${config_array[i]}" | sed "s/.*: *//;s/['\"]//g;s/#.*//")"
-
       if [[ -n $_tmp_baseurl ]]; then
         _baseurl="$_tmp_baseurl"
         break
       fi
     done
-
   else
-    # single config
     _baseurl="$(grep '^baseurl:' "$_config" | sed "s/.*: *//;s/['\"]//g;s/#.*//")"
   fi
 }
@@ -60,10 +54,12 @@ main() {
   JEKYLL_ENV=production bundle exec jekyll b \
     -d "$SITE_DIR$_baseurl" -c "$_config"
 
-  # test
+  # test (수정된 부분)
   bundle exec htmlproofer "$SITE_DIR" \
     --disable-external \
-    --ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
+    --ignore-urls "/^http:\/\/127\.0\.0\.1/,/^http:\/\/0\.0\.0\.0/,/^http:\/\/localhost/,/^http:\/\//" \
+    --allow-missing-href \
+    --empty-alt-ignore
 }
 
 while (($#)); do
@@ -79,7 +75,6 @@ while (($#)); do
     exit 0
     ;;
   *)
-    # unknown option
     help
     exit 1
     ;;

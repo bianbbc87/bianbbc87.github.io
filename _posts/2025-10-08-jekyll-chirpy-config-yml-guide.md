@@ -135,48 +135,8 @@ webmaster_verifications:
   facebook: # fill in your Facebook verification code
 ```
 
-#### 1. Google Site Verification 설정하기
+Site Verification 설정 상세 가이드
 
-###### 1. Google Search Console로 접속합니다. 
-- [Google Search Console](https://search.google.com/search-console/welcome)
-
-###### 2. `URL 접두어` 방식에 블로그 사이트 도메인을 등록합니다.
-
-![alt text](/image-8.png){: .w-75 .shadow .rounded-10 }
-
-###### 3. 권장 확인 방법인 `HTML 파일` 말고, **`HTML 태그`**에서 메타 태그를 복사합니다.
-
-`<meta name="google-site-verification" content="R02x0MfSsOobEyxqa11BwJ7oTJvzfBL5jLyTiHwYUZA" />` 에서 **content 값**
-
-![alt text](/image-9.png){: .w-75 .shadow .rounded-10 }
-
-###### 4. `${google_verifications_code}` 자리에 붙여넣습니다.
-
-###### 5. 이 설정을 포함한 상태에서 호스팅이 되도록 재배포 합니다. (git push)
-
-###### 6. 다시 사이트로 돌아와 `확인` 을 클릭합니다.
-
-###### 7. 성공 화면을 확인합니다.
-
-![alt text](/image-6.png){: .w-75 .shadow .rounded-10 }
-
-#### 2. Bing Site Verification 설정하기
-
-###### 1. Help Guide에 따라 Bing WebMaster에서 인증을 진행하면 됩니다.
-
-[Help Guide](https://www.bing.com/webmasters/help/add-and-verify-site-12184f8b?utm_source=chatgpt.com)
-
-[Bing WebMaster](https://www.bing.com/webmasters/)
-
-###### 2. 성공 화면을 확인합니다.
-
-![alt text](/image-7.png){: .w-75 .shadow .rounded-10 }
-
-#### 3. 나머지 설정하기
-
-- Yandex: <https://webmaster.yandex.com/>
-- Baidu: <https://ziyuan.baidu.com/>
-- Facebook: <https://business.facebook.com/>
 
 ## 웹 분석 및 조회수 집계
 
@@ -201,107 +161,18 @@ analytics:
     id: # fill in your Fathom Site ID
 ```
 
-#### 1. Google Analytics 설정하기
-
-저는 가장 익숙한 google analytics로 설정했습니다.
-
-###### 1. google analytics에 접속합니다.
-
-###### 2. 구글 계정 로그인 후 시작하기를 클릭합니다.
-
-###### 3. 계정 세부 정보에서 이름을 입력합니다.
-
-![alt text](/ga-1.png){: .w-75 .shadow .rounded-10 }
-
-###### 4. 세부 정보를 설정합니다. 
-세부 정보는 큰 상관이 없어 저는 대충 입력했습니다.
-
-![alt text](/ga-3.png){: .w-75 .shadow .rounded-10 }
-
-![alt text](/ga-4.png){: .w-75 .shadow .rounded-10 }
-
-###### 5. 이용 약관을 동의합니다. 국가를 `한국`으로 선택해주세요.
-
-![alt text](/ga-5.png){: .w-75 .shadow .rounded-10 }
-
-###### 5. 웹(Web) 플랫폼을 선택합니다.
-
-![alt text](/ga-6.png){: .w-75 .shadow .rounded-10 }
-
-###### 6. 데이터 스트림을 설정합니다.
-
-![alt text](/ga-7.png){: .w-75 .shadow .rounded-10 }
-
-###### 7. 사진과 같은 화면에서, 드래그된 `id` 값만 복사합니다.
-
-![alt text](/ga-8.png){: .w-75 .shadow .rounded-10 }
-
-###### 8. `${google_analytics_id}`에 값을 붙여넣습니다.
-
-###### 9. 다시 사이트로 돌아와, `설치 테스트` 버튼을 클릭합니다.
-
-###### 10. 성공 화면을 확인합니다.
-
-![alt text](/image-10.png){: .w-75 .shadow .rounded-10 }
-
-
-#### 2. 나머지 설정하기
-
-- goatcounter: <https://www.goatcounter.com>
-- umami: <https://umami.is>
-- matomo: <https://matomo.org/guide/installation-maintenance/matomo-on-premise-self-hosted>
-- cloudflare: <https://developers.cloudflare.com/web-analytics/get-started>
-- fathom: <https://usefathom.com>
-
+Anaytics 설정 상세 가이드
 
 ### pageviews
 ---
 
 페이지 조회수를 표시하기 위한 서비스 설정입니다. 오직 `goatcounter`만 가능합니다.
 
-#### goatcounter로 조회수 표시 설정하기
-
-###### 1. [goatcounter](https://www.goatcounter.com/) 사이트에 회원가입 합니다.
-
-> Code: goatcounter 사이트에서 사용할 코드입니다.
-> Site domain: 블로그 도메인 `https://{username}.github.io` 을 입력합니다.
-> Email address: 로그인용 이메일 주소를 입력합니다.
-> Password: 로그인용 비밀번호를 입력합니다.
-> Fill in 9 here: 사람 검증 절차입니다. Fill in에 적힌 숫자 그대로 입력하면 됩니다.
-
-![alt text](/views-1.png){: .w-75 .shadow .rounded-10 }
-
-###### 2. 이메일을 확인합니다.
-
-1번에서 입력한 이메일로 GoatCounter 메일이 와있습니다.
-`Please go here to verify your email address:`의 링크로 접근해 이메일과 비밀번호로 로그인 합니다.
-
-![alt text](/views-3.png){: .w-75 .shadow .rounded-10 }
-
-###### 3. 사이트 코드를 확인합니다.
-
-![alt text](/views-2.png){: .w-75 .shadow .rounded-10 }
-
-방금 설정한 Account Name이 Site Code입니다.
-여기서 Site Code는 `bianbbc87`입니다.
-
-###### 4. 우측 상단 Settings 클릭 후 `Allow adding visitor counts on your website...` 체크박스를 활성화 합니다.
-
-![alt text](/views-4.png){: .w-75 .shadow .rounded-10 }
-
-```javascript
-<script data-goatcounter="https://bianbbc87.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-```
-
-###### 3. analytics config에 goatcounter.id를 등록합니다.
+페이지 뷰 설정 상세 가이드
 
 ```yaml
-analytics:
-  ...
-  goatcounter:
-    id: bianbbc87
-  ...
+pageviews:
+  provider: # now only supports 'goatcounter'
 ```
 
 ###### 4. git push로 재배포하고 성공을 확인합니다.
