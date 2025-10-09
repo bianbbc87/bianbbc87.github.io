@@ -1,6 +1,6 @@
 ---
 title: Chirpy Config - goatcounter로 페이지뷰 설정하기
-date: 2025-10-08 21:45:00 +0900
+date: 2025-10-09 02:50:00 +0900
 published: true
 categories: [Github-Pages, Jekyll]
 tags: [configuation]
@@ -12,11 +12,15 @@ media_subpath: '/assets/img/posts/20251008-config'
 
 ###### 1. [goatcounter](https://www.goatcounter.com/) 사이트에 회원가입 합니다.
 
-> Code: goatcounter 사이트에서 사용할 코드입니다.
-> Site domain: 블로그 도메인 `https://{username}.github.io` 을 입력합니다.
-> Email address: 로그인용 이메일 주소를 입력합니다.
-> Password: 로그인용 비밀번호를 입력합니다.
-> Fill in 9 here: 사람 검증 절차입니다. Fill in에 적힌 숫자 그대로 입력하면 됩니다.
+> **Code**: goatcounter 사이트에서 사용할 코드입니다.
+>
+> **Site domain**: 블로그 도메인 `https://{username}.github.io` 을 입력합니다.
+>
+> **Email address**: 로그인용 이메일 주소를 입력합니다.
+>
+> **Password**: 로그인용 비밀번호를 입력합니다.
+>
+> **Fill in 9 here**: 사람 검증 절차입니다. Fill in에 적힌 숫자 그대로 입력하면 됩니다.
 
 ![alt text](/views-1.png){: .w-75 .shadow .rounded-10 }
 
@@ -43,7 +47,7 @@ media_subpath: '/assets/img/posts/20251008-config'
         async src="//gc.zgo.at/count.js"></script>
 ```
 
-###### 3. analytics config에 goatcounter.id를 등록합니다.
+###### 5. analytics config에 goatcounter.id를 등록합니다.
 
 ```yaml
 analytics:

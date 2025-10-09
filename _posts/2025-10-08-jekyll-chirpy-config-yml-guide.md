@@ -125,6 +125,8 @@ social:
 - Baidu: 중국 검색 노출
 - Facebook - 검색 엔진은 아니지만, Facebook과 Instargram에서 링크를 공유할 때 공식 도메인 인증이 가능하며, Insights 사용이 가능해집니다.
 
+[Site Verification 설정 상세 가이드](https://bianbbc87.github.io/posts/jekyll-config-site-verification-guide/)
+
 ```yaml
 webmaster_verifications:
   google: ${google_verifications_code}
@@ -135,13 +137,14 @@ webmaster_verifications:
   facebook: # fill in your Facebook verification code
 ```
 
-Site Verification 설정 상세 가이드
-
-
 ## 웹 분석 및 조회수 집계
 
 ### analytics
 ---
+
+google, goatcounter, umami, matomo, cloudflare, fathom으로 web analytics를 id로 설정할 수 있습니다.
+
+[Anaytics 설정 상세 가이드](https://bianbbc87.github.io/posts/jekyll-config-analytics-guide/)
 
 ```yaml
 analytics:
@@ -161,14 +164,13 @@ analytics:
     id: # fill in your Fathom Site ID
 ```
 
-Anaytics 설정 상세 가이드
 
 ### pageviews
 ---
 
 페이지 조회수를 표시하기 위한 서비스 설정입니다. 오직 `goatcounter`만 가능합니다.
 
-페이지 뷰 설정 상세 가이드
+[페이지 뷰 설정 상세 가이드](https://bianbbc87.github.io/posts/jekyll-config-pageview-guide/)
 
 ```yaml
 pageviews:
@@ -252,6 +254,8 @@ toc: true
 - Utterances: Github Issues를 이용한 댓글 시스템입니다.
 - Giscus: Github Discussions 기반 댓글 시스템입니다.
 
+[Giscus 댓글 시스템 상세 설정하기](https://bianbbc87.github.io/posts/jekyll-config-giscus-guide/)
+
 ```yaml
 comments:
   # [disqus | utterances | giscus]
@@ -275,55 +279,6 @@ comments:
     lang: # optional, default to the value of `site.lang`
     reactions_enabled: # optional, default to the value of `1`
 ```
-
-#### Giscus 댓글 시스템 설정
-
-[이 사이트](https://giscus.app/ko)에서 설정할 수 있습니다.
-
-###### 1. giscus app 사이트에 접속합니다.
-
-###### 2. 언어를 설정합니다.
-
-![alt text](/image-12.png){: .w-75 .shadow .rounded-10 }
-
-###### 3. repository가 public으로 등록 되었는지 확인합니다.
-
-###### 4. 블로그 repository에 [giscus 앱](https://github.com/apps/giscus)을 설치합니다.
-- 사이트 접근 후 `Configure` 버튼을 클릭해서 블로그 repository만 연결해주세요.
-
-###### 5. repository의 `Settings` > `Generel` > `Features` 항목에서 `Discussions`를 활성화 합니다.
-
-![alt text](/image-11.png){: .w-75 .shadow .rounded-10 }
-
-###### 6. 다시 돌아와 저장소명(username/repository)를 새롭게 입력하고 통과를 확인합니다.
-
-![alt text](/image-13.png){: .w-75 .shadow .rounded-10 }
-
-###### 7. Discussion 카테고리를 General로 설정합니다.
-- 페이지<->Discussions 연결과 기능은 기본 값을 사용합니다.
-
-![alt text](/image-15.png){: .w-75 .shadow .rounded-10 }
-
-###### 8. 테마를 선택합니다.
-
-![alt text](/image-14.png){: .w-75 .shadow .rounded-10 }
-
-###### 9. giscus 사용에서 보이는 script 중 다음 값만 config에 추가합니다.
-
-```yaml
-  giscus:
-    repo: ${giscus에 등록한 저장소명}
-    repo_id: ${data-repo-id}
-    category: ${data-category}
-    category_id: ${data-category-id}
-    mapping: ${data-mapping} # optional, default to 'pathname'
-    strict: ${data-strict} # optional, default to '0'
-    input_position: ${data-input-position} # optional, default to 'bottom'
-    lang: ${data-lang} # optional, default to the value of `site.lang`
-    reactions_enabled: ${data-reactions-enabled} # optional, default to the value of `1`
-```
-
-###### 10. git push로 블로그를 재배포 합니다.
 
 ## media resource
 
