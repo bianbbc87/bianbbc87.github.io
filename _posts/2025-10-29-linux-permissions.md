@@ -34,6 +34,8 @@ media_subpath: '/assets/img/posts/20251029-config'
     - `@`: extended attributes (xattr) 존재 - macOS/BSD 표기 (파일에 확장 속성 있음)
         - (macOS에서는 `ls -l`에 `@`가 붙으면 `ls -l@` 로 확장 속성 내용 확인 가능
 
+<br />
+
 ## rwx, s, t 권한 문자
 
 | 문자  | 의미           | 설명                               | 숫자 값 |
@@ -45,9 +47,13 @@ media_subpath: '/assets/img/posts/20251029-config'
 
 **예시:**
 
-- owner: `rwx` (읽기/쓰기/실행)
-- group: `r-x` (읽기/실행)
-- others `r--` (읽기만)
+- owner: `rwx` (읽기/쓰기/실행) (7)
+- group: `r-x` (읽기/실행) (5)
+- others `r--` (읽기만) (4)
+
+**권한 번호:** `754`
+
+<br />
 
 ### 특수 문자
 
@@ -98,10 +104,14 @@ drwxrwxrwt  9 root root /tmp
 - 보안상 가장 **제한적인 권한**을 가져야 한다.
 - r—이면 모든 사람이 읽을 수는 있지만 수정은 못한다.
 
+<br />
+
 ### 권한 적용 우선순위
 
 (1) Owner → (2) Group → (3) Others
 즉, 사용자가 여러 그룹에 속해 있어도, **가장 상위에 해당하는 권한이 적용**된다.
+
+<br />
 
 ### 사용자 ↔ 그룹 관계
 
@@ -117,6 +127,7 @@ sudo groupadd devteam
 # eunji 사용자를 devteam 그룹에 추가
 sudo usermod -aG devteam eunji
 ```
+<br />
 
 ### 파일, 디렉토리 ↔ 그룹 관계
 
@@ -163,6 +174,8 @@ dscl . list /Groups
 ```bash
 net localgroup
 ```
+
+<br />
 
 ### 그룹에 권한 부여
 
