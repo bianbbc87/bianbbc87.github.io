@@ -17,10 +17,10 @@ kubernetes cluster는 control plane과 컨테이너화 된 application을 실행
 Master Node는 Control Plane Component라 불리는 일련의 작업을 실행 합니다.
 
 
-| 종류             | Control Plane (Master Node) | Worker Node |
-|---------------------|:---------------------------------:|:-----------:|
-| 정의             | 클러스터 내의 worker node와 pod를 관리하며, 의사 결정, 스케줄링 및 api 요청을 처리한다. | application을 구성하는 컨테이너 (pod)를 호스팅하는 머신이다. |
-| 역할         | Manage, Plan, Schedule, Monitor Nodes  | Host Application as Containers |
+| 종류 | Control Plane (Master Node) | Worker Node |
+|-----|:----:|:----:|
+| 정의 | 클러스터 내의 worker node와 pod를 관리하며, 의사 결정, 스케줄링 및 api 요청을 처리한다. | application을 구성하는 컨테이너 (pod)를 호스팅하는 머신이다. |
+| 역할 | Manage, Plan, Schedule, Monitor Nodes | Host Application as Containers |
 
 <br />
 
