@@ -16,7 +16,7 @@ timezone: Asia/Seoul
 
 title: bianbbc87 Devlog # the main title
 
-tagline: GDG Campus Korea Organizer & AWS CloudClub DGU Captain & CS Student in DGU # it will display as the subtitle
+tagline: Software Engineer · Infra Engineer # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   기술 블로그 겸 포트폴리오 페이지입니다. 컨테이너 등 네트워크/인프라 기술에 관심이 많습니다.
