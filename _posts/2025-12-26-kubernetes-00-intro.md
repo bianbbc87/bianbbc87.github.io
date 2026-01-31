@@ -4,6 +4,7 @@ date: 2025-12-26 14:26:00 +0900
 published: true
 categories: [Cloud]
 tags: [Kubernetes]
+mermaid: true
 media_subpath: '/assets/img/posts/20251226-kube00'
 ---
 

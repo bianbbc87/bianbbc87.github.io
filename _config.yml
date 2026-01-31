@@ -97,6 +97,9 @@ theme_mode: dark # [light | dark]
 # e.g. 'https://cdn.com'
 # cdn: "https://chirpy-img.netlify.app"
 
+mermaid:
+  src: "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"
+
 # the avatar on sidebar, support local or CORS resources
 avatar: "/assets/img/commons/avatar.jpeg"
 
@@ -132,7 +135,7 @@ comments:
 # Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
 assets:
   self_host:
-    enabled: true # boolean, keep empty means false
+    enabled: false # boolean, keep empty means false
     # specify the Jekyll environment, empty means both
     # only works if `assets.self_host.enabled` is 'true'
     env: # [development | production]
