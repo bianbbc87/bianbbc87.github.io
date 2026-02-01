@@ -1,5 +1,5 @@
 ---
-title: Kubernetes 오픈소스 기여 생태계 톺아보기
+title: Kubernetes 오픈소스 기여 생태계 톺아보기 00 - Intro
 date: 2025-12-29 15:03:00 +0900
 published: true
 categories: [Cloud]
