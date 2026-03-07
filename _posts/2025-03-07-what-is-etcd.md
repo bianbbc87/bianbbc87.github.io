@@ -109,7 +109,7 @@ RSM의 특징:
 
 ### Consensus (합의)
 
-Robust한 RSM을 만들기 위해서는 데이터 복제 과정에서 발생할 수 있는 문제를 해결하기 위해 **컨센서스(consensus) 확보**가 핵심입니다.
+Robust한 RSM을 만들기 위해서는 데이터 복제 과정에서 발생할 수 있는 문제를 해결하기 위해 **컨센서스(consensus) 확보**가 핵심이다.
 
 | 속성 | 설명 |
 |------|------|
@@ -118,29 +118,29 @@ Robust한 RSM을 만들기 위해서는 데이터 복제 과정에서 발생할 
 | **Independent from timing** | 네트워크 지연 발생해도 로그 일관성 유지 |
 | **Reactivity** | 모든 서버에 복제되지 않아도 조건 만족 시 빠르게 응답 |
 
-etcd는 이를 위해 **Raft 알고리즘**을 사용합니다.
+etcd는 이를 위해 **Raft 알고리즘**을 사용한다.
 
 ### 핵심 용어
 
 #### Quorum (쿼럼)
 
-**의사결정에 필요한 최소한의 서버 수**를 의미합니다.
+**의사결정에 필요한 최소한의 서버 수**를 의미한다.
 
 - 계산식: `(전체 서버 수 / 2) + 1`
 - 예: 3대 서버 → 쿼럼 2
 - 예: 5대 서버 → 쿼럼 3
 
-쿼럼 숫자만큼의 서버에 데이터 복제가 완료되면 작업 완료로 간주합니다.
+쿼럼 숫자만큼의 서버에 데이터 복제가 완료되면 작업 완료로 간주한다.
 
 #### State (상태)
 
-etcd 서버는 다음 3가지 상태 중 하나를 가집니다:
+etcd 서버는 다음 3가지 상태 중 하나를 가진다.
 
 - **Leader**: 클라이언트 요청 처리 및 로그 복제
 - **Follower**: Leader의 로그를 복제하고 동기화
 - **Candidate**: Leader 선출 과정의 임시 상태
 
-추가로 **Learner** 상태도 존재합니다 (etcd 3.4.0+):
+추가로 **Learner** 상태도 존재한다. (etcd 3.4.0+)
 - 클러스터 멤버이지만 쿼럼 카운트에서 제외
 - Log를 따라잡는 중인 새 멤버
 
@@ -151,7 +151,7 @@ etcd 서버는 다음 3가지 상태 중 하나를 가집니다:
 
 ### 클러스터 구성
 
-etcd는 **홀수 개의 노드**로 클러스터를 구성합니다.
+etcd는 **홀수 개의 노드**로 클러스터를 구성한다.
 
 | 클러스터 크기 | 쿼럼 | 허용 장애 노드 수 | 권장 사용 |
 |--------------|------|------------------|----------|
@@ -160,11 +160,11 @@ etcd는 **홀수 개의 노드**로 클러스터를 구성합니다.
 | 5개 | 3 | 2개 | 대규모 프로덕션 |
 | 7개 | 4 | 3개 | 대규모 프로덕션 |
 
-> **왜 홀수?** 과반수 합의를 위해 홀수가 효율적입니다. 4개와 5개 모두 2개 장애까지만 허용하므로, 5개가 더 경제적입니다.
+> **왜 홀수?** 과반수 합의를 위해 홀수가 효율적입니다. 4개와 5개 모두 2개 장애까지만 허용하므로, 5개가 더 경제적이다.
 
 ## Raft 알고리즘
 
-Raft는 etcd가 consensus를 확보하기 위해 사용하는 합의 알고리즘입니다.
+Raft는 etcd가 consensus를 확보하기 위해 사용하는 합의 알고리즘이다.
 
 ### 1. Leader Election (리더 선출)
 
@@ -202,7 +202,7 @@ RequestVote RPC
 
 #### RequestVote 판단 기준
 
-Follower는 다음을 비교하여 투표 결정:
+Follower는 다음을 비교하여 투표 결정
 - Candidate의 **term** 값
 - Candidate의 **log index** (더 최신인지)
 
@@ -274,11 +274,11 @@ Follower로 변경, term 업데이트
 
 #### PreVote
 
-연속된 election 실패로 인한 가용성 저하를 방지하기 위해:
+연속된 election 실패로 인한 가용성 저하를 방지하기 위해,
 - **Randomize election timeout**: 각 서버마다 다른 timeout 값
 - **PreVote**: 실제 투표 전 사전 투표로 불필요한 election 방지
 
-etcd는 PreVote를 구현하고 있습니다.
+etcd는 PreVote를 구현하고 있다.
 
 ### 4. Runtime Reconfiguration (런타임 재구성)
 
@@ -306,7 +306,7 @@ Leader → 새 서버: snapshot 전송
 
 #### Learner 상태
 
-etcd 3.4.0부터 **Learner** 상태 도입:
+etcd 3.4.0부터 **Learner** 상태 도입
 - 클러스터 멤버이지만 **쿼럼 카운트에서 제외**
 - Log를 충분히 따라잡은 후 **promote API**로 Follower로 승격
 - 가용성 이슈 방지
@@ -330,19 +330,17 @@ Commit 후 step down
 나머지 서버 중 새 Leader 선출
 ```
 
-**Leader 삭제 시 특별 동작**:
+**Leader 삭제 시 특별 동작**
 - 자신을 제외한 쿼럼만큼 복제
 - Commit 후 **step down** (Leader 역할 포기)
 - 새 Leader 선출 보장
 
-**Restriction**:
+**Restriction**
 - `started < quorum`이 되는 삭제 요청은 거절
 - 예: 5개 → 3개 → 2개 (OK), 2개 → 1개 (거절, started=1 < quorum=2)
 
-## Kubernetes API Server가 etcd에 저장하는 데이터
-
 ## kubernetes에서의 etcd
-Kubernetes 클러스터에서 etcd가 다운되면 클러스터는 제대로 동작하지 못하게 되므로, **높은 신뢰성**을 제공해야 합니다.
+Kubernetes 클러스터에서 etcd가 다운되면 클러스터는 제대로 동작하지 못하게 되므로, **높은 신뢰성**을 제공해야 한다.
 
 ### 주요 특징
 
@@ -355,7 +353,7 @@ Kubernetes 클러스터에서 etcd가 다운되면 클러스터는 제대로 동
 
 ### 저장되는 리소스
 
-Kubernetes에서 etcd는 **모든 클러스터 상태를 저장**하는 유일한 데이터 저장소입니다.
+다음과 같은 directory에 `key-value`로 저장이 된다.
 
 ```bash
 # Pod 생성 예시
@@ -465,11 +463,7 @@ Controller Manager: 실제 리소스 생성
 4. Controller Manager가 watch로 변경 감지
 5. 실제 리소스 생성/수정
 
-## 결론
-
-etcd는 Kubernetes를 비롯한 분산 시스템의 핵심 구성요소입니다.
-
-### 핵심 요약
+## 핵심 요약
 
 - **무엇**: Key-Value 형태의 분산 스토리지
 - **어떻게**: RSM + Raft 알고리즘으로 consensus 확보
@@ -483,17 +477,11 @@ etcd는 Kubernetes를 비롯한 분산 시스템의 핵심 구성요소입니다
 3. **Fault Tolerance**: Leader 장애 시 자동 재선출
 4. **Runtime Reconfiguration**: 동적 멤버 추가/삭제
 
-### Kubernetes와 etcd
-
-- API Server가 모든 리소스를 etcd에 저장
-- etcd 장애 = Kubernetes 클러스터 장애
-- 정기적인 백업 필수
-
 ## 참고 자료
 
 - [etcd 공식 문서](https://etcd.io/docs/)
 - [Raft 합의 알고리즘](https://raft.github.io/)
 - [Kubernetes와 etcd](https://kubernetes.io/docs/concepts/overview/components/#etcd)
 - [etcd Learner 설계](https://etcd.io/docs/v3.3.12/learning/learner/)
-https://www.alibabacloud.com/blog/fast-stable-and-efficient-etcd-performance-after-2019-double-11_595736
-https://dbdb.io/db/boltdb
+- https://www.alibabacloud.com/blog/fast-stable-and-efficient-etcd-performance-after-2019-double-11_595736
+- https://dbdb.io/db/boltdb
