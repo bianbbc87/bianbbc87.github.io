@@ -28,8 +28,8 @@ etcd는 이레 그림과 같은 레이어로 구성된다.
 | 저장 위치    | 메모리 + WAL       | 메모리 (in-memory) | 디스크 (persistent storage) |
 | 데이터 구조   | replicated log  | B-tree 기반 index 구조 | B+tree 기반 embedded DB|
 | 장애 대응    | leader election | 재시작 시 재구성          | source of truth |
-| 읽기 경로 사용 | 간접적             | 직접 사용              | 직접 사용           |
-| 쓰기 경로 사용 | 반드시 통과          | 업데이트 발생            | 실제 commit       |
+| 클라이언트가 데이터를 조회할 때 거치는 경로 | 간접적             | 직접 사용              | 직접 사용           |
+| 클라이언트가 데이터를 저장할 때 거치는 경로 | 반드시 통과          | 업데이트 발생            | 실제 commit       |
 
 <br />
 
@@ -48,19 +48,20 @@ etcd는 이레 그림과 같은 레이어로 구성된다.
 Client Write Request
         │
         ▼
-     Raft Log
-   (leader replication)
+   Raft 합의 프로세스
+   (메모리에서 처리)
         │
         ▼
-       WAL
+  WAL에 Raft log 기록
+  (Raft log의 물리적 저장소)
         │
         ▼
      BoltDB
- (actual KV stored)
+ (실제 KV 데이터 저장)
         │
         ▼
     TreeIndex update
- (revision index)
+ (revision 인덱스)
 ```
 
 <br />
@@ -69,7 +70,7 @@ Client Write Request
 BoltDB는 Go 언어로 작성된 임베디드 ACID 키/값 데이터베이스이다.
 - 쓰기 작업은 하나만 허용하고 읽기 작업은 여러 개 허용하는 섀도우 페이징 기능을 같춘 MVCC(다중 모드 제어)를 지원한다.
 - 모든 트랜잭션은 직렬화 가능한 격리 환경에서 실행된다.
-- key-value 쌍을 B+ Tree 데이터 저장소에 저장한다.
+- `key-value` 쌍을 B+ Tree 데이터 저장소에 저장한다.
 
 <br />
 <br />
