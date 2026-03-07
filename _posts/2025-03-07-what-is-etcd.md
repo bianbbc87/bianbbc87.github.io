@@ -12,6 +12,8 @@ media_subpath: '/assets/img/posts/20260306-etcd'
 etcd는 **Key-Value 형태의 데이터를 저장하는 분산 스토리지**이다.
 kubernetes의 구성 데이터, 상태 데이터 및 메타데이터를 관리한다.
 
+<br />
+
 ### etcd architecture
 etcd는 이레 그림과 같은 레이어로 구성된다.
 
@@ -29,10 +31,13 @@ etcd는 이레 그림과 같은 레이어로 구성된다.
 | 읽기 경로 사용 | 간접적             | 직접 사용              | 직접 사용           |
 | 쓰기 경로 사용 | 반드시 통과          | 업데이트 발생            | 실제 commit       |
 
+<br />
+
 ### etcd data 저장 흐름
 1. Write 요청 발생
-2. WAL에 먼저 기록 (Raft log durability 확보)
+2. WAL에 먼저 기록 (Raft log 내구성 확보)
 - WAL 은 Write-ahead logging 의 약자이다. 트랜잭션이 일어나기 전에 로그를 미리 기록하여 트랜잭션 `undo`, `redo` 를 할 수 있도록 한다.
+- 실제 디스크에 저장된다.
 3. BoltDB에 실제 데이터 저장
 4. TreeIndex에 revision 기반 index 업데이트
 5. 이후 Read 요청 시 TreeIndex를 통해 빠르게 key 위치 탐색
@@ -66,7 +71,14 @@ BoltDB는 Go 언어로 작성된 임베디드 ACID 키/값 데이터베이스이
 - 모든 트랜잭션은 직렬화 가능한 격리 환경에서 실행된다.
 - key-value 쌍을 B+ Tree 데이터 저장소에 저장한다.
 
-### Revision (리비전)
+<br />
+<br />
+
+## ETCD 특징 
+
+<br />
+
+### 1. Revision (리비전)
 
 etcd는 하나의 key에 대응되는 value를 하나만 저장하는 것이 아니라, **클러스터 생성 이후 key의 모든 변경사항을 기록**한다.
 
@@ -79,19 +91,12 @@ Revision 3: value = "3"
 
 - 각 변경사항은 revision 번호로 추적
 - 과거 시점의 데이터 조회 가능
-- Compaction으로 오래된 revision 정리
+- 오래된 revision 데이터를 삭제하여 저장 공간을 확보 (Compaction)
+    - etcd 설정으로 변경이 가능하다. (default: false)
 
-### Log 기반 처리
+<br />
 
-etcd는 **command가 들어있는 log 단위로 데이터를 처리**한다.
-
-- 데이터 write = log append
-- 받은 log를 순서대로 처리
-- Log entry는 메모리에 보관 후 주기적으로 snapshot 생성
-
-## etcd 구성 요소 (RSM)
-
-### RSM (Replicated State Machine)
+### 2. RSM (Replicated State Machine)
 
 분산된 환경에서 etcd가 동작할 경우, 여러 Server에서 CRUD가 발생하게 된다.
 etcd가 정상적으로 동작하기 위해서는 다른 Server들에서 이벤트가 발생하더라도 **모든 Server의 etcd들이 동일한 데이터를 저장하고 있는것이 보장**되어야 한다.
@@ -107,7 +112,16 @@ RSM의 특징:
 - 데이터 write = **log append**
 - 받은 log를 **순서대로 처리**
 
-### Consensus (합의)
+#### 2.1. Log 기반 처리
+
+etcd는 **command가 들어있는 log 단위로 데이터를 처리**한다.
+
+- 데이터 write를 `log append`라고 부른다.
+- 받은 log를 순서대로 처리한다.
+- Log entry는 메모리에 보관 후 주기적으로 `snapshot`을 생성한다.
+    - default: 10만 개의 log entry마다 snapshot 생성
+
+#### 2.2. Consensus (합의)
 
 Robust한 RSM을 만들기 위해서는 데이터 복제 과정에서 발생할 수 있는 문제를 해결하기 위해 **컨센서스(consensus) 확보**가 핵심이다.
 
@@ -120,9 +134,17 @@ Robust한 RSM을 만들기 위해서는 데이터 복제 과정에서 발생할 
 
 etcd는 이를 위해 **Raft 알고리즘**을 사용한다.
 
-### 핵심 용어
+<br />
+<br />
 
-#### Quorum (쿼럼)
+## Raft 알고리즘
+
+Raft는 etcd가 consensus를 확보하기 위해 사용하는 합의 알고리즘이다.
+
+<br />
+
+### etcd Raft 알고리즘의 주요 개념
+#### 1. Quorum (쿼럼)
 
 **의사결정에 필요한 최소한의 서버 수**를 의미한다.
 
@@ -130,9 +152,9 @@ etcd는 이를 위해 **Raft 알고리즘**을 사용한다.
 - 예: 3대 서버 → 쿼럼 2
 - 예: 5대 서버 → 쿼럼 3
 
-쿼럼 숫자만큼의 서버에 데이터 복제가 완료되면 작업 완료로 간주한다.
+쿼럼 숫자만큼의 서버에 데이터 복제가 완료되면 **작업 완료**로 간주한다.
 
-#### State (상태)
+#### 2. State (상태)
 
 etcd 서버는 다음 3가지 상태 중 하나를 가진다.
 
@@ -140,33 +162,14 @@ etcd 서버는 다음 3가지 상태 중 하나를 가진다.
 - **Follower**: Leader의 로그를 복제하고 동기화
 - **Candidate**: Leader 선출 과정의 임시 상태
 
-추가로 **Learner** 상태도 존재한다. (etcd 3.4.0+)
-- 클러스터 멤버이지만 쿼럼 카운트에서 제외
-- Log를 따라잡는 중인 새 멤버
-
-#### Timer (타이머)
+#### 3. Timer (타이머)
 
 - **Heartbeat interval**: Leader가 Follower에게 주기적으로 heartbeat 전송
 - **Election timeout**: 이 시간 동안 heartbeat를 받지 못하면 Leader가 없다고 간주
 
-### 클러스터 구성
+<br />
 
-etcd는 **홀수 개의 노드**로 클러스터를 구성한다.
-
-| 클러스터 크기 | 쿼럼 | 허용 장애 노드 수 | 권장 사용 |
-|--------------|------|------------------|----------|
-| 1개 | 1 | 0개 | 개발/테스트 |
-| 3개 | 2 | 1개 | 소규모 프로덕션 |
-| 5개 | 3 | 2개 | 대규모 프로덕션 |
-| 7개 | 4 | 3개 | 대규모 프로덕션 |
-
-> **왜 홀수?** 과반수 합의를 위해 홀수가 효율적입니다. 4개와 5개 모두 2개 장애까지만 허용하므로, 5개가 더 경제적이다.
-
-## Raft 알고리즘
-
-Raft는 etcd가 consensus를 확보하기 위해 사용하는 합의 알고리즘이다.
-
-### 1. Leader Election (리더 선출)
+### etcd의 Leader Election (리더 선출)
 
 #### 초기 클러스터 구성
 
@@ -206,7 +209,7 @@ Follower는 다음을 비교하여 투표 결정
 - Candidate의 **term** 값
 - Candidate의 **log index** (더 최신인지)
 
-### 2. Log Replication (로그 복제)
+### 2. etcd의 Log Replication (로그 복제)
 
 #### Write 요청 처리
 
@@ -235,7 +238,7 @@ Leader: 쿼럼 달성 → Commit
 - **nextIndex**: Leader가 알고 있는 Follower가 받을 다음 log 번호
 - **Commit**: log entry의 데이터를 db에 영구 저장
 
-### 3. Leader Down (리더 장애)
+### 3. etcd의 Leader Down (리더 장애)
 
 #### Leader 다운 시나리오
 
@@ -272,75 +275,58 @@ Follower로 변경, term 업데이트
 
 - 낮은 term과 lastIndex를 가진 구 Leader는 자동으로 Follower로 전환
 
-#### PreVote
+<br />
+<br />
 
-연속된 election 실패로 인한 가용성 저하를 방지하기 위해,
-- **Randomize election timeout**: 각 서버마다 다른 timeout 값
-- **PreVote**: 실제 투표 전 사전 투표로 불필요한 election 방지
+## ETCD HA
+Kubernetes control plane을 HA로 구성하는 경우, ETCD에 대한 HA도 필요하다. 
+ETCD는 기본적으로 쿼럼 기반 Raft 알고리즘을 사용하므로, HA 구성에서 최소 3대 이상의 node가 필요하며, 홀수 대수를 추천한다.
 
-etcd는 PreVote를 구현하고 있다.
+예를 들어 다음과 같다.
 
-### 4. Runtime Reconfiguration (런타임 재구성)
+| 클러스터 크기 | 쿼럼 | 허용 장애 노드 수 | 권장 사용 |
+|--------------|------|------------------|----------|
+| 1개 | 1 | 0개 | 개발/테스트 |
+| 3개 | 2 | 1개 | 소규모 프로덕션 |
+| 5개 | 3 | 2개 | 대규모 프로덕션 |
+| 7개 | 4 | 3개 | 대규모 프로덕션 |
 
-#### 멤버 추가
+> **왜 홀수?** 과반수 합의를 위해 홀수가 효율적입니다. 4개와 5개 모두 2개 장애까지만 허용하므로, 5개가 더 경제적이다.
 
-```
-3개 서버 클러스터 (쿼럼: 2)
-    ↓
-Client: 4번째 서버 추가 요청
-    ↓
-Leader: Cnew (config log) 생성
-    ↓
-Cnew는 entry에 쓰이자마자 효력 발휘
-    ↓
-새 쿼럼: 3 (4/2+1)
-    ↓
-쿼럼만큼 복제 후 commit
-    ↓
-Leader → 새 서버: snapshot 전송
-```
+ETCD HA에는 2가지 방법이 있다.
 
-**주의사항**:
-- Config log는 **entry에 쓰이자마자 효력 발휘** (commit 전)
-- 새 서버가 catch up 전에 또 다른 멤버 추가 시 **가용성 이슈** 발생 가능
+<br />
 
-#### Learner 상태
+### 1. Stacked etcd topology
+![alt text](image3.png)
 
-etcd 3.4.0부터 **Learner** 상태 도입
-- 클러스터 멤버이지만 **쿼럼 카운트에서 제외**
-- Log를 충분히 따라잡은 후 **promote API**로 Follower로 승격
-- 가용성 이슈 방지
+각 컨트롤 플레인 노드는 지역 etcd 맴버를 생성하고 이 etcd 맴버는 **오직 해당 노드의 kube-apiserver와 통신**한다.
+즉, **컨트롤 플레인과 etcd 맴버가 같은 노드에 묶여 있다.**
 
-#### Restriction
+이 HA의 경우, control plane 장애에 etcd도 함께 영향을 받기 때문에, **2대 이하 nodes의 경우 장애 발생 시 etcd quorum을 상실**하게 된다.
 
-- **한 번에 하나씩** 멤버 추가/삭제
-- Leader의 log에 **커밋되지 않은 config log**가 있으면 새 요청 거절
+때문에 최소 **3대 이상의 nodes가 필요**하다.
 
-#### 멤버 삭제
+<br />
 
-```
-Leader 삭제 요청 시:
-    ↓
-Leader: 자신을 제외한 쿼럼 계산
-    ↓
-자신 제외한 모든 서버에 Cnew 복제
-    ↓
-Commit 후 step down
-    ↓
-나머지 서버 중 새 Leader 선출
-```
+### 2. External etcd topology
+![alt text](image4.png)
 
-**Leader 삭제 시 특별 동작**
-- 자신을 제외한 쿼럼만큼 복제
-- Commit 후 **step down** (Leader 역할 포기)
-- 새 Leader 선출 보장
+중첩된 etcd 토플로지와 유사하게, 외부 etcd 토플로지에 각 컨트롤 플레인 노드는 `kube-apiserver`, `kube-scheduler`, `kube-controller-manager`의 인스턴스를 운영한다. 
+etcd가 외부에 있기 때문에, **kube-apiserver는 로드 밸런서를 이용하여 워커노드에 노출해야 한다..** 
 
-**Restriction**
-- `started < quorum`이 되는 삭제 요청은 거절
-- 예: 5개 → 3개 → 2개 (OK), 2개 → 1개 (거절, started=1 < quorum=2)
+이는 etcd를 control plane과 분리하기 때문에 control plane 장애에 etcd가 영향을 받지 않는다.
+대신 **etcd cluster를 구성하기 위해 Stacked etcd topolocy에 비해 호스트 개수가 2배나 필요**하다. (최소 6대)
+
+<br />
+
+<br />
+<br />
 
 ## kubernetes에서의 etcd
-Kubernetes 클러스터에서 etcd가 다운되면 클러스터는 제대로 동작하지 못하게 되므로, **높은 신뢰성**을 제공해야 한다.
+Kubernetes 클러스터에서 etcd는 다음과 같은 특징으로 **높은 신뢰성**을 제공한다.
+
+<br />
 
 ### 주요 특징
 
@@ -350,92 +336,69 @@ Kubernetes 클러스터에서 etcd가 다운되면 클러스터는 제대로 동
 - **Watch 기능**: 키 변경사항 실시간 감지
 - **Revision 관리**: 모든 변경 이력 추적
 
+ETCD의 주요 저장 데이터는 다음과 같다.
 
-### 저장되는 리소스
-
-다음과 같은 directory에 `key-value`로 저장이 된다.
-
-```bash
-# Pod 생성 예시
-kubectl create pod nginx --image=nginx
-
-# etcd에 저장되는 데이터
-/registry/pods/default/nginx -> {
-  "metadata": {
-    "name": "nginx",
-    "namespace": "default",
-    ...
-  },
-  "spec": {
-    "containers": [{
-      "name": "nginx",
-      "image": "nginx"
-    }]
-  },
-  "status": {...}
-}
-```
+<br />
 
 ### 주요 저장 데이터
 
-#### 1. 리소스 정의
-- **Pods**: 실행 중인 컨테이너 정보
-- **Services**: 서비스 엔드포인트 및 설정
-- **Deployments**: 배포 상태 및 스펙
-- **ReplicaSets**: 복제본 관리 정보
-- **StatefulSets**: 상태 유지 애플리케이션 정보
+| 카테고리 | 리소스 | 설명 |
+|---------|--------|------|
+| **리소스 정의** | Pods | 실행 중인 컨테이너 정보 |
+| | Services | 서비스 엔드포인트 및 설정 |
+| | Deployments | 배포 상태 및 스펙 |
+| | ReplicaSets | 복제본 관리 정보 |
+| | StatefulSets | 상태 유지 애플리케이션 정보 |
+| **설정 데이터** | ConfigMaps | 애플리케이션 설정 |
+| | Secrets | 민감한 정보 (암호화 저장) |
+| **클러스터 메타데이터** | Nodes | 노드 상태 및 리소스 정보 |
+| | Namespaces | 네임스페이스 정의 |
+| | Events | 클러스터 이벤트 로그 |
+| **정책 및 권한** | RBAC | Role, RoleBinding, ClusterRole 등 |
+| | NetworkPolicies | 네트워크 정책 |
+| | PodSecurityPolicies | Pod 보안 정책 |
 
-#### 2. 설정 데이터
-- **ConfigMaps**: 애플리케이션 설정
-- **Secrets**: 민감한 정보 (암호화 저장)
+<br />
 
-#### 3. 클러스터 메타데이터
-- **Nodes**: 노드 상태 및 리소스 정보
-- **Namespaces**: 네임스페이스 정의
-- **Events**: 클러스터 이벤트 로그
+### etcd 데이터 확인 방법
 
-#### 4. 정책 및 권한
-- **RBAC**: Role, RoleBinding, ClusterRole 등
-- **NetworkPolicies**: 네트워크 정책
-- **PodSecurityPolicies**: Pod 보안 정책
-
-### etcd 데이터 확인
-
+1. etcd Pod에 접속
 ```bash
-# etcd Pod에 접속
-kubectl exec -it etcd-master -n kube-system -- sh
+kubectl exec -it etcd-devops-controlplane-01 -n kube-system -- sh
+```
 
-# 모든 키 조회
+2. etcdctl 명령어 실행 시 필요한 인증 정보 setting
+```bash
+export ETCDCTL_API=3
+export ETCDCTL_CACERT=/etc/kubernetes/pki/etcd/ca.crt
+export ETCDCTL_CERT=/etc/kubernetes/pki/etcd/server.crt
+export ETCDCTL_KEY=/etc/kubernetes/pki/etcd/server.key
+```
+
+3. 전체 디렉토리 조회
+```bash
 etcdctl get / --prefix --keys-only
+```
 
-# 특정 리소스 조회
-etcdctl get /registry/pods/default/nginx
-
-# 특정 타입의 모든 리소스
+4. resource list 조회
+```bash
+# Pod 목록
 etcdctl get /registry/pods --prefix --keys-only
+
+# Deployment 목록
+etcdctl get /registry/deployments --prefix --keys-only
+
+# Service 목록
+etcdctl get /registry/services --prefix --keys-only
 ```
 
-### 데이터 저장 구조
+5. 특정 resource의 상세 정보 조회
+```bash
+# 특정 Pod 상세 정보 (JSON 형태)
+etcdctl get /registry/pods/default/nginx
+```
 
-```
-/registry
-  ├── /pods
-  │   ├── /default/nginx
-  │   ├── /default/redis
-  │   └── /kube-system/coredns
-  ├── /services
-  │   ├── /default/kubernetes
-  │   └── /default/my-service
-  ├── /deployments
-  │   └── /default/my-app
-  ├── /configmaps
-  │   └── /default/app-config
-  ├── /secrets
-  │   └── /default/db-password
-  └── /nodes
-      ├── /node-1
-      └── /node-2
-```
+<br />
 
 ### API Server와 etcd의 상호작용
 
@@ -463,6 +426,9 @@ Controller Manager: 실제 리소스 생성
 4. Controller Manager가 watch로 변경 감지
 5. 실제 리소스 생성/수정
 
+<br />
+<br />
+
 ## 핵심 요약
 
 - **무엇**: Key-Value 형태의 분산 스토리지
@@ -470,18 +436,14 @@ Controller Manager: 실제 리소스 생성
 - **왜**: 분산 시스템의 신뢰할 수 있는 단일 진실 공급원
 - **어디서**: Kubernetes, Cloud Foundry, CoreDNS 등
 
-### Raft 알고리즘의 핵심
-
-1. **Leader Election**: 쿼럼 기반 리더 선출
-2. **Log Replication**: 쿼럼만큼 복제 후 commit
-3. **Fault Tolerance**: Leader 장애 시 자동 재선출
-4. **Runtime Reconfiguration**: 동적 멤버 추가/삭제
+<br />
+<br />
 
 ## 참고 자료
 
 - [etcd 공식 문서](https://etcd.io/docs/)
+- [boltDB 공식 문서](https://dbdb.io/db/boltdb)
 - [Raft 합의 알고리즘](https://raft.github.io/)
-- [Kubernetes와 etcd](https://kubernetes.io/docs/concepts/overview/components/#etcd)
-- [etcd Learner 설계](https://etcd.io/docs/v3.3.12/learning/learner/)
-- https://www.alibabacloud.com/blog/fast-stable-and-efficient-etcd-performance-after-2019-double-11_595736
-- https://dbdb.io/db/boltdb
+- [Kubernetes 고가용성 토폴로지 선택](https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/ha-topology/)
+- [kakao tech Kubernetes 운영을 위한 etcd 기본 동작 원리의 이해](https://tech.kakao.com/posts/484)
+- [Alibaba Fast, Stable, and Efficient: etcd Performance After 2019 Double 11](https://www.alibabacloud.com/blog/fast-stable-and-efficient-etcd-performance-after-2019-double-11_595736)
