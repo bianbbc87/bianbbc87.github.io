@@ -1,5 +1,5 @@
 ---
-title: "etcd: 분산 시스템의 핵심 Key-Value 저장소"
+title: "kubernetes etcd란"
 date: 2026-03-07 00:00:00 +0900
 categories: [Infrastructure]
 tags: [etcd, kubernetes, distributed-systems, key-value-store, raft]
