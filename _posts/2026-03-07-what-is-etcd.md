@@ -159,6 +159,14 @@ etcd 서버는 다음 3가지 상태 중 하나를 가진다.
 - **Heartbeat interval**: Leader가 Follower에게 주기적으로 heartbeat 전송
 - **Election timeout**: 이 시간 동안 heartbeat를 받지 못하면 Leader가 없다고 간주
 
+#### 4. Safety Rule (안전 규칙)
+
+| 구분 | Term | Last Log Index |
+|------|------|----------------|
+| 범위 | 클러스터 전체 시간 | 개별 서버의 데이터 양 |
+| 증가 시점 | Leader 선출마다 | 로그 추가마다 |
+| 목적 | 시간적 순서 보장 | 데이터 완전성 보장 |
+
 <br />
 
 ### etcd의 Leader Election (리더 선출)
@@ -198,8 +206,11 @@ RequestVote RPC
 #### RequestVote 판단 기준
 
 Follower는 다음을 비교하여 투표 결정
-- Candidate의 **term** 값
-- Candidate의 **log index** (더 최신인지)
+
+| 항목 | 조건 | 의미 |
+|------|------|------|
+| term | Candidate의 term ≥ 자신의 term | 더 최신 또는 같은 term |
+| log index | Candidate의 log가 자신보다 최신이거나 같음 | 최소한 자신만큼은 최신 |
 
 ### 2. etcd의 Log Replication (로그 복제)
 
@@ -210,7 +221,7 @@ Client → Leader: write(x=1)
     ↓
 Leader: lastIndex 증가, log 기록
     ↓
-Leader → Followers: AppendEntry RPC
+Leader → Followers: AppendEntry RPC call
     ↓
 Follower 1: log 기록 완료 → OK
 Follower 2: 아직 기록 중...
