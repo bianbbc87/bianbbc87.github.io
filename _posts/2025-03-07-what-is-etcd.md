@@ -9,41 +9,68 @@ media_subpath: '/assets/img/posts/20260306-etcd'
 
 ## etcd란?
 
-etcd는 **Key-Value 형태의 데이터를 저장하는 분산 스토리지**입니다. CoreOS에서 개발했으며, 현재는 CNCF의 졸업 프로젝트로 관리되고 있습니다.
+etcd는 **Key-Value 형태의 데이터를 저장하는 분산 스토리지**이다.
+kubernetes의 구성 데이터, 상태 데이터 및 메타데이터를 관리한다.
 
-Kubernetes 클러스터에서 etcd가 다운되면 클러스터는 제대로 동작하지 못하게 되므로, **높은 신뢰성**을 제공해야 합니다.
+### etcd architecture
+etcd는 이레 그림과 같은 레이어로 구성된다.
 
-### 주요 특징
+![alt text](image2.png)
 
-- **강력한 일관성(Strong Consistency)**: Raft 합의 알고리즘 사용
-- **고가용성(High Availability)**: 클러스터 구성으로 단일 장애점 제거
-- **분산 환경 지원**: 여러 서버에 데이터 복제
-- **Watch 기능**: 키 변경사항 실시간 감지
-- **Revision 관리**: 모든 변경 이력 추적
+요소별 주요 역할은 다음과 같다.
 
-## etcd의 데이터 모델
+| 항목       | Raft            | TreeIndex          | BoltDB          |
+| -------- | --------------- | ------------------ | --------------- |
+| 목적       | 분산 합의           | 빠른 조회를 위한 메모리 인덱스 | 데이터 영속성을 위한 디스크 저장소 |
+| 데이터 종류   | 로그 엔트리          | Key의 revision 히스토리 및 index | key, value, metadata |
+| 저장 위치    | 메모리 + WAL       | 메모리 (in-memory) | 디스크 (persistent storage) |
+| 데이터 구조   | replicated log  | B-tree 기반 index 구조 | B+tree 기반 embedded DB|
+| 장애 대응    | leader election | 재시작 시 재구성          | source of truth |
+| 읽기 경로 사용 | 간접적             | 직접 사용              | 직접 사용           |
+| 쓰기 경로 사용 | 반드시 통과          | 업데이트 발생            | 실제 commit       |
 
-### Key-Value 저장 구조
+### etcd data 저장 흐름
+1. Write 요청 발생
+2. WAL에 먼저 기록 (Raft log durability 확보)
+- WAL 은 Write-ahead logging 의 약자이다. 트랜잭션이 일어나기 전에 로그를 미리 기록하여 트랜잭션 `undo`, `redo` 를 할 수 있도록 한다.
+3. BoltDB에 실제 데이터 저장
+4. TreeIndex에 revision 기반 index 업데이트
+5. 이후 Read 요청 시 TreeIndex를 통해 빠르게 key 위치 탐색
+6. 필요한 경우 BoltDB에서 실제 value 조회
 
+즉, 다음과 같은 흐름을 가진다.
+```bash
+Client Write Request
+        │
+        ▼
+     Raft Log
+   (leader replication)
+        │
+        ▼
+       WAL
+        │
+        ▼
+     BoltDB
+ (actual KV stored)
+        │
+        ▼
+    TreeIndex update
+ (revision index)
 ```
-/registry
-  ├── /pods
-  │   ├── /default/pod-1
-  │   └── /default/pod-2
-  ├── /services
-  │   └── /default/my-service
-  └── /configmaps
-      └── /default/app-config
-```
 
-- **계층적 구조**: 디렉토리처럼 키를 구조화
-- **Key-Value 쌍**: 모든 데이터는 키와 값으로 저장
+<br />
+
+### etcd의 데이터 모델 (BoltDB)
+BoltDB는 Go 언어로 작성된 임베디드 ACID 키/값 데이터베이스이다.
+- 쓰기 작업은 하나만 허용하고 읽기 작업은 여러 개 허용하는 섀도우 페이징 기능을 같춘 MVCC(다중 모드 제어)를 지원한다.
+- 모든 트랜잭션은 직렬화 가능한 격리 환경에서 실행된다.
+- key-value 쌍을 B+ Tree 데이터 저장소에 저장한다.
 
 ### Revision (리비전)
 
-etcd는 하나의 key에 대응되는 value를 하나만 저장하는 것이 아니라, **클러스터 생성 이후 key의 모든 변경사항을 기록**합니다.
+etcd는 하나의 key에 대응되는 value를 하나만 저장하는 것이 아니라, **클러스터 생성 이후 key의 모든 변경사항을 기록**한다.
 
-```
+```bash
 Key: x
 Revision 1: value = "1"
 Revision 2: value = "2"
@@ -56,7 +83,7 @@ Revision 3: value = "3"
 
 ### Log 기반 처리
 
-etcd는 **command가 들어있는 log 단위로 데이터를 처리**합니다.
+etcd는 **command가 들어있는 log 단위로 데이터를 처리**한다.
 
 - 데이터 write = log append
 - 받은 log를 순서대로 처리
@@ -66,7 +93,12 @@ etcd는 **command가 들어있는 log 단위로 데이터를 처리**합니다.
 
 ### RSM (Replicated State Machine)
 
-etcd는 **Replicated State Machine**입니다. 분산 컴퓨팅 환경에서 서버가 몇 개 다운되어도 잘 동작하는 시스템을 만들기 위한 방법으로, **똑같은 데이터를 여러 서버에 계속 복제**한다.
+분산된 환경에서 etcd가 동작할 경우, 여러 Server에서 CRUD가 발생하게 된다.
+etcd가 정상적으로 동작하기 위해서는 다른 Server들에서 이벤트가 발생하더라도 **모든 Server의 etcd들이 동일한 데이터를 저장하고 있는것이 보장**되어야 한다.
+
+이렇게 똑같은 데이터를 여러 서버에 계속해서 복제하는 방식을 `RSM (Replicated state machine)`이라고 하며, `RSM`에 어떤 데이터를 복사할지를 결정하는 알고리즘을 `Consensus Algorithm`이라고 한다.
+
+`Raft Algorithm`은 `Consensus Algorithm`의 한 종류로 **서로 다른 Server들이 모종의 방법으로 합의를 통해 상태를 공유하는 알고리즘**이다.
 
 ![RSM 구조](image.png)
 
@@ -309,6 +341,18 @@ Commit 후 step down
 
 ## Kubernetes API Server가 etcd에 저장하는 데이터
 
+## kubernetes에서의 etcd
+Kubernetes 클러스터에서 etcd가 다운되면 클러스터는 제대로 동작하지 못하게 되므로, **높은 신뢰성**을 제공해야 합니다.
+
+### 주요 특징
+
+- **강력한 일관성(Strong Consistency)**: Raft 합의 알고리즘 사용
+- **고가용성(High Availability)**: 클러스터 구성으로 단일 장애점 제거
+- **분산 환경 지원**: 여러 서버에 데이터 복제
+- **Watch 기능**: 키 변경사항 실시간 감지
+- **Revision 관리**: 모든 변경 이력 추적
+
+
 ### 저장되는 리소스
 
 Kubernetes에서 etcd는 **모든 클러스터 상태를 저장**하는 유일한 데이터 저장소입니다.
@@ -451,3 +495,5 @@ etcd는 Kubernetes를 비롯한 분산 시스템의 핵심 구성요소입니다
 - [Raft 합의 알고리즘](https://raft.github.io/)
 - [Kubernetes와 etcd](https://kubernetes.io/docs/concepts/overview/components/#etcd)
 - [etcd Learner 설계](https://etcd.io/docs/v3.3.12/learning/learner/)
+https://www.alibabacloud.com/blog/fast-stable-and-efficient-etcd-performance-after-2019-double-11_595736
+https://dbdb.io/db/boltdb
