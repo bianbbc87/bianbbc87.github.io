@@ -316,7 +316,6 @@ ETCD HA에는 2가지 방법이 있다.
 ![alt text](image4.png)
 
 중첩된 etcd 토플로지와 유사하게, 외부 etcd 토플로지에 각 컨트롤 플레인 노드는 `kube-apiserver`, `kube-scheduler`, `kube-controller-manager`의 인스턴스를 운영한다. 
-etcd가 외부에 있기 때문에, **kube-apiserver는 로드 밸런서를 이용하여 워커노드에 노출해야 한다..** 
 
 이는 etcd를 control plane과 분리하기 때문에 control plane 장애에 etcd가 영향을 받지 않는다.
 대신 **etcd cluster를 구성하기 위해 Stacked etcd topolocy에 비해 호스트 개수가 2배나 필요**하다. (최소 6대)
