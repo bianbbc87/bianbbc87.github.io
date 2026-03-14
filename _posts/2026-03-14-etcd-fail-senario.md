@@ -443,7 +443,7 @@ etcdctl member add <new-member-name> --peer-urls=<peer-url>
 
 <br />
 
-## Leaner 도입으로 해겨된 장애
+## Leaner 도입으로 해결된 장애
 
 etcd v3.4부터 **Learner** 상태가 도입됐다.
 
@@ -866,6 +866,72 @@ spec:
 - 모든 클러스터가 동시에 백업하면 네트워크 부하가 집중된다. 클러스터마다 다른 시간을 설정하는 것이 좋다.
 - 백업 파일은 오브젝트 스토리지(S3 등)에 저장하여 노드 장애에도 안전하게 보존한다.
 - 백업 전 `Compaction` + `Defrag`를 수행하면 백업 크기를 줄일 수 있다. (오래된 revision 제거)
+
+<br />
+
+#### 2.2. 디스크 관리 - Revision & Compaction
+
+etcd는 하나의 key에 대한 **모든 변경사항을 파일시스템에 기록**한다. 이것을 revision이라고 한다.
+
+```
+key "x"에 대한 write 이력:
+
+revision 3: x = "apple"
+revision 7: x = "banana"
+revision 12: x = "cherry"   ← 현재 최신
+```
+
+이 구조 덕분에 특정 시점의 데이터를 조회할 수 있지만, 별도 관리 없이 계속 쌓이면 디스크 공간이 고갈된다.
+**Compaction**으로 오래된 revision을 삭제할 수 있으며, 삭제된 revision은 더 이상 조회할 수 없다.
+
+#### Auto Compaction
+
+etcd는 두 가지 Auto Compaction 모드를 제공한다. ([etcd 공식 운영 가이드 — Auto Compaction](https://etcd.io/docs/v3.5/op-guide/maintenance/#auto-compaction))
+
+| 항목 | Revision 모드 | Periodic 모드 |
+|------|--------------|--------------|
+| **설정** | `auto-compaction-mode: revision` | `auto-compaction-mode: periodic` |
+| **retention 예시** | `auto-compaction-retention: 1000` | `auto-compaction-retention: 8h` |
+| **동작 주기** | 5분마다 실행 | retention을 10으로 나눈 간격 (8h → 1h마다) |
+| **삭제 기준** | `최신 revision - retention 값` 이하 삭제 | 지정 시간 이전의 revision 삭제 |
+| **예시** | 현재 revision이 5000이면 → 4000 이하 삭제 | 1시간마다 1시간 전 revision 이하 삭제 |
+
+<br />
+
+#### 2.3. Defragmentation (단편화 제거)
+
+Compaction으로 revision을 삭제해도 **파일시스템의 디스크 공간이 자동으로 반환되지 않는다.**
+
+etcd는 내부적으로 **BoltDB(페이지 기반 파일 DB)** 를 사용한다.
+Compaction은 해당 페이지를 "비었다"고 **표시만** 할 뿐 파일 크기를 줄이지 않는다.
+이는 RDB에서 DELETE를 해도 디스크 공간이 확보되지 않는 것과 같은 원리다.
+(삭제할 때마다 파일을 shrink하면 뒤의 모든 페이지를 앞으로 당겨야 해서 비용이 너무 크기 때문)
+
+Defragmentation은 유효 데이터만 새 파일에 순서대로 복사 → 원본 파일과 교체하는 방식으로
+실제 디스크 공간을 반환한다. 이 과정에서 해당 멤버의 read/write가 잠깐 block된다.
+
+| 항목 | Compaction | Defragmentation |
+|------|-----------|----------------|
+| 목적 | 오래된 revision 논리적 삭제 | 디스크 공간 실제 반환 |
+| 자동화 | 가능 (auto compaction) | **없음 (수동만 가능)** |
+| 처리 중 영향 | 없음 | **해당 멤버 read/write 일시 block** |
+| block 시간 | - | 보통 수 ms (DB 크기에 따라 다름) |
+
+```bash
+# 1. 현재 revision 확인
+CURRENT_REV=$(etcdctl endpoint status --write-out="json" \
+  | jq '.[] | .Status.header.revision')
+
+# 2. Compaction (오래된 revision 정리)
+etcdctl compact $CURRENT_REV
+
+# 3. Defrag (디스크 공간 실제 반환)
+#    한 번에 하나씩 순서대로 진행 (멤버별 순차 실행 권장)
+etcdctl defrag --endpoints=<etcd-endpoint>
+
+# 4. DB 사이즈 확인
+etcdctl endpoint status --write-out=table
+```
 
 <br />
 <br />
