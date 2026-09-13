@@ -28,6 +28,7 @@ toc: false
 - Java
 - Python
 - JavaScript / TypeScript
+- Go
 
 ### Frameworks & Platforms
 - **Frontend**: React, React Native  
@@ -43,8 +44,11 @@ toc: false
 ## 💼 Careers
 
 ### **NHN Cloud**
+**Site Reliability Engineer**  
+2026.04 ~ Present
+
 **Site Reliability Engineer (Internship)**  
-2025.01 ~ Present
+2025.01 ~ 2026.03
 
 
 ### **Dongguk University [CSDC Labs](https://sites.google.com/dgu.ac.kr/csdc/)**
@@ -143,8 +147,8 @@ toc: false
 ## 🎓 Education
 
 **Dongguk University**  
-B.A. in Sculpture (2021–2023)  
-B.S. in Computer Science & Engineering (2023–2026)
+B.Eng. in Computer Science & Engineering (2021–2026)  
+*Transferred from Sculpture (College of Fine Arts) in 2023*
 
 ## 🔗 Links
 
