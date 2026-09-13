@@ -50,6 +50,12 @@ toc: false
 **Site Reliability Engineer (Internship)**  
 2025.01 ~ 2026.03
 
+- 23개 Kubernetes 클러스터(운영 11개) 규모의 클라우드 서비스 3종 배포·운영 — git → Jenkins → Argo CD → Harbor 기반 CI/CD
+- 배포 형상 표준화·마이그레이션 자동화로 210개 애플리케이션 전환, 약 105시간 작업을 약 4.5시간으로 단축
+- Jenkins 코어 LTS 9개 구간 건너뛰기 업그레이드(45개 서비스 의존) — 야간 3시간 내 무중단 완료, 플러그인 로드 실패 0건
+- DNS 장애 오진을 근거로 정정하고 근본 원인 규명, 재발 방지를 위한 SERVFAIL 알림 규칙 추가
+- 트래픽 감지 기반 Network ACL 자동화 및 가시성 도구를 10개 클러스터에 app-of-apps 형상으로 전사 적용
+
 
 ### **Dongguk University [CSDC Labs](https://sites.google.com/dgu.ac.kr/csdc/)**
 **학부 연구생**  
