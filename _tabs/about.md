@@ -54,7 +54,6 @@ git → Jenkins → Argo CD → Harbor 파이프라인으로 운영 환경 격�
 - **배포 형상 표준화 자동화** — 210개 앱의 helm/Jenkinsfile 자동 변환 + `helm diff` 동일성 검증 → **105h → 4.5h**
 - **Jenkins 무중단 메이저 업그레이드** — 45개 서비스 의존, LTS 9구간 점프, 비가역 지점 사전 식별·플러그인 의존성 자동 수렴 → **3h 작업창 내 무중단, 플러그인 실패 0건**
 - **DNS 장애 근본 원인 규명** — 팀 초기 진단을 SERVFAIL·응답 지연 근거로 정정, fallback 오설정 규명 → **임시 라우팅 복구 + SERVFAIL 알림 추가**
-- **Network ACL 자동화** — 트래픽 기반 ACL 자동 구성·가시성 도구를 Argo CD app-of-apps로 구성 → **10개 클러스터 전사 적용**
 
 **Site Reliability Engineer (Internship)**  
 2025.01 ~ 2026.03
