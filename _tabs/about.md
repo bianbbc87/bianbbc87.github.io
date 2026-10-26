@@ -56,7 +56,7 @@ git → Jenkins → Argo CD → Harbor 파이프라인으로 운영 환경 격�
 - **DNS 장애 근본 원인 규명** — 팀 초기 진단을 SERVFAIL·응답 지연 근거로 정정, fallback 오설정 규명 → **임시 라우팅 복구 + SERVFAIL 알림 추가**
 
 **Site Reliability Engineer (Internship)**  
-2025.01 ~ 2026.03
+2026.01 ~ 2026.03
 
 클라우드 서비스 인프라 운영과 CI/CD 실무에 참여하며 정규 SRE 로 전환.
 
